@@ -2,15 +2,6 @@
 
 This repository contains a collection of Helm charts that can be used to deploy the Split Evaluator, Split Proxy, and Split Synchronizer. These are based off of the setups described in this blog post: [Kubernetes and Split](https://www.split.io/blog/kubernetes-and-split/). These do not include the sample python app used in those examples.
 
-## Installation
-
-To use these Helm charts, you need to have Helm installed on your local machine. If you don't have Helm installed, please refer to the official Helm documentation for installation instructions.
-
-Once Helm is installed, you can add this repository to your Helm repositories by running the following command:
-
-```shell
-helm repo add helm-charts https://github.com/split-community/helm-charts
-```
 
 ## Usage
 
