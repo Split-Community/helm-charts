@@ -30,11 +30,11 @@ For more information on how to use Helm and customize the deployment, please ref
 
 ## Integrating with the Split SDKs
 
-The (Split Evaluator)[https://help.split.io/hc/en-us/articles/360020037072-Split-Evaluator] does not need Split SDKs and can be integrated with via HTTP API calls. 
+The [Split Evaluator](https://help.split.io/hc/en-us/articles/360020037072-Split-Evaluator) does not need Split SDKs and can be integrated with via HTTP API calls. 
 
-The (Split Proxy)[https://help.split.io/hc/en-us/articles/4415960499213-Split-Proxy] requires Split SDKs to be configured to use the events Service as the events endpoint of the SDK and the sdk service as the sdk endpoint of the SDK. See this split help page for more info: (How to use Split SDKs with Split Proxy)[https://help.split.io/hc/en-us/articles/360053243551-General-SDK-How-to-use-Split-SDKs-with-Split-Proxy]
+The [Split Proxy](https://help.split.io/hc/en-us/articles/4415960499213-Split-Proxy) requires Split SDKs to be configured to use the events Service as the events endpoint of the SDK and the sdk service as the sdk endpoint of the SDK. See this split help page for more info: [How to use Split SDKs with Split Proxy](https://help.split.io/hc/en-us/articles/360053243551-General-SDK-How-to-use-Split-SDKs-with-Split-Proxy)
 
-The (Split Synchronizer)[https://help.split.io/hc/en-us/articles/360019686092-Split-Synchronizer] requires specific configuration for each Split SDK to read from the Synchronizer and be set to use Consumer mode. Please review the configuration options for your Server Side SDK listed in the Split Help Center here: (Server Side SDKs)[https://help.split.io/hc/en-us/sections/12619253757069-Server-side-SDKs]
+The [Split Synchronizer](https://help.split.io/hc/en-us/articles/360019686092-Split-Synchronizer) requires specific configuration for each Split SDK to read from the Synchronizer and be set to use Consumer mode. Please review the configuration options for your Server Side SDK listed in the Split Help Center here: [Server Side SDKs](https://help.split.io/hc/en-us/sections/12619253757069-Server-side-SDKs)
 
 ## License
 
