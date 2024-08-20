@@ -8,7 +8,7 @@ This repository contains a collection of Helm charts that can be used to deploy 
 To deploy an application or service using one of the Helm charts in this repository, download these locally and then proceed to install using `helm install`
 
 ```shell
-helm install my-evaluator ./split-evaluator -set config.apiKey=<yourApiKey>
+helm install my-evaluator ./split-evaluator --set config.apiKey=<yourApiKey>
 ```
 
 You can customize the deployment by providing values for the chart's parameters using the `--set` flag. For example, to set the number of replicas for the `my-evaluator` deployment, run the following command:
