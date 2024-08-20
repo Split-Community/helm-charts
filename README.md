@@ -14,16 +14,16 @@ helm repo add helm-charts https://github.com/split-community/helm-charts
 
 ## Usage
 
-To deploy an application or service using one of the Helm charts in this repository, you can use the `helm install` command. For example, to deploy the `split-evaluator` chart, run the following command:
+To deploy an application or service using one of the Helm charts in this repository, download these locally and then proceed to install using `helm install`
 
 ```shell
-helm install my-evaluator helm-charts/split-evaluator --set config.apiKey=<yourApiKey>
+helm install my-evaluator ./split-evaluator -set config.apiKey=<yourApiKey>
 ```
 
 You can customize the deployment by providing values for the chart's parameters using the `--set` flag. For example, to set the number of replicas for the `my-evaluator` deployment, run the following command:
 
 ```shell
-helm install my-proxy helm-charts/my-app --set replicaCount=5 --set config.apiKey=<yourApiKey>
+helm install my-evaluator ./split-evaluator --set replicaCount=5 --set config.apiKey=<yourApiKey>
 ```
 
 For more information on how to use Helm and customize the deployment, please refer to the Helm documentation.
