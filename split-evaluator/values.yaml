@@ -1,0 +1,22 @@
+replicaCount: 3
+
+image:
+  repository: splitsoftware/split-evaluator
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 7548
+
+config:
+  apiKey: ""
+
+startupProbe:
+  initialDelaySeconds: 1
+  timeoutSeconds: 1
+
+livenessProbe:
+  initialDelaySeconds: 1
+  periodSeconds: 5
+

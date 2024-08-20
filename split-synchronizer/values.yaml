@@ -1,0 +1,9 @@
+apiKey: "your-api-key"
+redis:
+  image: redis
+  service:
+    port: 6379
+synchronizer:
+  image: splitsoftware/split-synchronizer
+  redisHost: redis-svc
+  redisPort: 6379

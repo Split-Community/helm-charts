@@ -1,0 +1,15 @@
+{{- if not .Values.config.apiKey }}
+{{- fail "config.apiKey is required. Please provide it using --set config.apiKey=<your-api-key>" }}
+{{- end }}
+{{- if not .Values.config.clientApiKeys }}
+{{- fail "config.clientApiKeys is required. Please provide it using --set config.clientApiKeys=<your-client-api-keys>" }}
+{{- end }}
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proxy-configmap
+data:
+  apiKey: {{ .Values.config.apiKey | quote }}
+  clientApiKeys: {{ .Values.config.clientApiKeys | quote }}

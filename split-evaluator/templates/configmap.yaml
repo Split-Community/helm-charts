@@ -1,0 +1,10 @@
+{{- if not .Values.config.apiKey }}
+{{- fail "config.apiKey is required. Please provide it using --set config.apiKey=<your-api-key>" }}
+{{- end }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: eval-configmap
+data:
+  apiKey: {{ .Values.config.apiKey | quote }}

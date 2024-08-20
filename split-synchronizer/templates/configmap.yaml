@@ -1,0 +1,13 @@
+{{- if not .Values.apiKey }}
+{{- fail "config.apiKey is required. Please provide it using --set apiKey=<your-api-key>" }}
+{{- end }}
+
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sync-configmap
+data:
+  apiKey: {{ .Values.apiKey | quote }}
+

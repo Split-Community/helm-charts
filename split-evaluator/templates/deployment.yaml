@@ -1,0 +1,43 @@
+{{- if not .Values.replicaCount }}
+{{- fail "replicaCount is required. Please provide it using --set replicaCount=numberOfReplicas" }}
+{{- end }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: evaluator-deployment
+  name: evaluator-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: evaluator-deployment
+  template:
+    metadata:
+      labels:
+        app: evaluator-deployment
+    spec:
+      containers:
+        - name: split-evaluator
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          startupProbe:
+            httpGet:
+              path: /admin/healthcheck
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+          livenessProbe:
+            httpGet:
+              path: /admin/healthcheck
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          env:
+            - name: SPLIT_EVALUATOR_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: eval-configmap
+                  key: apiKey
+

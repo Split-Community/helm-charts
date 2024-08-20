@@ -1,0 +1,26 @@
+eventsProxyReplicaCount: 3
+sdkProxyReplicaCount: 2
+
+image:
+  repository: splitsoftware/split-proxy
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  ports:
+    proxy: 3000
+    admin: 3010
+
+config:
+  apiKey: ""
+  clientApiKeys: ""
+
+startupProbe:
+  initialDelaySeconds: 3
+  timeoutSeconds: 1
+
+livenessProbe:
+  initialDelaySeconds: 1
+  periodSeconds: 5
+

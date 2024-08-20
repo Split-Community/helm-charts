@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: split-sync
+  labels:
+    app: split-sync
+spec:
+  containers:
+    - name: split-sync
+      image: {{ .Values.synchronizer.image }}
+      env:
+        - name: SPLIT_SYNC_APIKEY
+          valueFrom:
+            configMapKeyRef:
+              name: sync-configmap
+              key: apiKey
+        - name: SPLIT_SYNC_REDIS_HOST
+          value: {{ .Values.synchronizer.redisHost }}
+        - name: SPLIT_SYNC_REDIS_PORT
+          value: "{{ .Values.synchronizer.redisPort }}"

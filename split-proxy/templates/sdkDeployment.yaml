@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: proxy-sdk-deployment
+  name: proxy-sdk-deployment
+spec:
+  replicas: {{ .Values.sdkProxyReplicaCount }}
+  selector:
+    matchLabels:
+      app: proxy-sdk-deployment
+  template:
+    metadata:
+      labels:
+        app: proxy-sdk-deployment
+    spec:
+      containers:
+        - name: split-proxy
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          startupProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  health=`curl -s localhost:3010/health/application | grep '"healthy":true' -o | wc -l`
+                  if test $health -ne 3; then exit 0; else exit 1; fi
+            initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  health=`curl -s localhost:3010/health/application | grep '"healthy":true' -o | wc -l`
+                  if test $health -ne 3; then exit 0; else exit 1; fi
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          env:
+            - name: SPLIT_PROXY_APIKEY
+              valueFrom:
+                configMapKeyRef:
+                  name: proxy-configmap
+                  key: apiKey
+            - name: SPLIT_PROXY_CLIENT_APIKEYS
+              valueFrom:
+                configMapKeyRef:
+                  name: proxy-configmap
+                  key: clientApiKeys
