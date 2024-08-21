@@ -1,8 +1,17 @@
 apiVersion: v1
 entries:
+  Split-Evaluator-Chart:
+  - apiVersion: v2
+    created: "2024-08-21T08:04:54.530399-04:00"
+    description: A Helm chart for the split evaluator service
+    digest: da80a2380f9fce49f1a76bdd07ccba2a5565e81f3cc80cc74b37d393d17e9ab3
+    name: Split-Evaluator-Chart
+    urls:
+    - https://Split-Community.github.io/helm-charts/Split-Evaluator-Chart-0.1.0.tgz
+    version: 0.1.0
   Split-Proxy-Chart:
   - apiVersion: v2
-    created: "2024-08-20T17:12:52.019811-04:00"
+    created: "2024-08-21T08:04:54.531459-04:00"
     description: A Helm chart for the Split Proxy service
     digest: 107d437e2b766305c39df143f71c7ffe2f82530086c45c8faa198afbf26dfb82
     name: Split-Proxy-Chart
@@ -11,20 +20,11 @@ entries:
     version: 0.1.0
   Split-Synchronizer-Chart:
   - apiVersion: v2
-    created: "2024-08-20T17:12:52.020348-04:00"
+    created: "2024-08-21T08:04:54.532845-04:00"
     description: A Helm chart for the Split Synchronizer and Redis
     digest: 79c304e8408e043d195d1a662eadeb37450897f39b9377a9b6e10cfaa18b37ab
     name: Split-Synchronizer-Chart
     urls:
     - https://Split-Community.github.io/helm-charts/Split-Synchronizer-Chart-0.1.0.tgz
     version: 0.1.0
-  evaluator-chart:
-  - apiVersion: v2
-    created: "2024-08-20T17:12:52.020828-04:00"
-    description: A Helm chart for the split evaluator service
-    digest: a5660ae527badb9d440ce26b635e9def294a6a5f44fb97af81fae5bf000d6c23
-    name: evaluator-chart
-    urls:
-    - https://Split-Community.github.io/helm-charts/evaluator-chart-0.1.0.tgz
-    version: 0.1.0
-generated: "2024-08-20T17:12:52.018666-04:00"
+generated: "2024-08-21T08:04:54.529134-04:00"
