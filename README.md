@@ -6,7 +6,7 @@ This repository contains a collection of Helm charts that can be used to deploy 
 Add the repo to helm with the following command:
 
 ```shell
-helm repo add split-helm-charts https://github.com/split-community/helm-charts
+helm repo add split-helm-charts https://split-community.github.io/helm-charts
 ```
 
 
