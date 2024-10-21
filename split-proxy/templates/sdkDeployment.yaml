@@ -19,23 +19,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           startupProbe:
-            exec:
-              command:
-                - /bin/bash
-                - -c
-                - |
-                  health=`curl -s localhost:3010/health/application | grep '"healthy":true' -o | wc -l`
-                  if test $health -ne 3; then exit 0; else exit 1; fi
+            httpGet:
+              path: /health/application
+              port: 3010
             initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
           livenessProbe:
-            exec:
-              command:
-                - /bin/bash
-                - -c
-                - |
-                  health=`curl -s localhost:3010/health/application | grep '"healthy":true' -o | wc -l`
-                  if test $health -ne 3; then exit 0; else exit 1; fi
+            httpGet:
+              path: /health/application
+              port: 3010
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           env:
