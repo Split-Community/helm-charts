@@ -37,7 +37,13 @@ spec:
           env:
             - name: SPLIT_EVALUATOR_API_KEY
               valueFrom:
+                {{- if .Values.config.useSealed }}
+                secretKeyRef:
+                  name: {{ .Values.config.sealed.secretName }}
+                  key: {{ .Values.config.sealed.apiKeyKey }}
+                {{- else }}
                 configMapKeyRef:
                   name: eval-configmap
                   key: apiKey
+                {{- end }}
 

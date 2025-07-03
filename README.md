@@ -1,4 +1,4 @@
-# Helm Charts
+# Split Helm Charts
 
 This repository contains a collection of Helm charts that can be used to deploy the Split Evaluator, Split Proxy, and Split Synchronizer. These are based off of the setups described in this blog post: [Kubernetes and Split](https://www.split.io/blog/kubernetes-and-split/). These do not include the sample python app used in those examples.
 

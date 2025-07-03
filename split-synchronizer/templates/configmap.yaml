@@ -1,13 +1,15 @@
+{{- if not .Values.useSealed }}
 {{- if not .Values.apiKey }}
-{{- fail "config.apiKey is required. Please provide it using --set apiKey=<your-api-key>" }}
+{{- fail "apiKey is required when not using sealed secrets. Please provide it using --set apiKey=<your-api-key>" }}
 {{- end }}
-
-
+{{- end }}
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: sync-configmap
 data:
+{{- if not .Values.useSealed }}
   apiKey: {{ .Values.apiKey | quote }}
+{{- end }}
 
