@@ -33,11 +33,23 @@ spec:
           env:
             - name: SPLIT_PROXY_APIKEY
               valueFrom:
+                {{- if .Values.config.useSealed }}
+                secretKeyRef:
+                  name: {{ .Values.config.sealed.secretName }}
+                  key: {{ .Values.config.sealed.apiKeyKey }}
+                {{- else }}
                 configMapKeyRef:
                   name: proxy-configmap
                   key: apiKey
+                {{- end }}
             - name: SPLIT_PROXY_CLIENT_APIKEYS
               valueFrom:
+                {{- if .Values.config.useSealed }}
+                secretKeyRef:
+                  name: {{ .Values.config.sealed.secretName }}
+                  key: {{ .Values.config.sealed.clientApiKeysKey }}
+                {{- else }}
                 configMapKeyRef:
                   name: proxy-configmap
                   key: clientApiKeys
+                {{- end }}

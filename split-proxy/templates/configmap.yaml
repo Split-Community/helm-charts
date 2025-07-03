@@ -1,15 +1,18 @@
+{{- if not .Values.config.useSealed }}
 {{- if not .Values.config.apiKey }}
-{{- fail "config.apiKey is required. Please provide it using --set config.apiKey=<your-api-key>" }}
+{{- fail "config.apiKey is required when not using sealed secrets. Please provide it using --set config.apiKey=<your-api-key>" }}
 {{- end }}
 {{- if not .Values.config.clientApiKeys }}
-{{- fail "config.clientApiKeys is required. Please provide it using --set config.clientApiKeys=<your-client-api-keys>" }}
+{{- fail "config.clientApiKeys is required when not using sealed secrets. Please provide it using --set config.clientApiKeys=<your-client-api-keys>" }}
 {{- end }}
-
+{{- end }}
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: proxy-configmap
 data:
+{{- if not .Values.config.useSealed }}
   apiKey: {{ .Values.config.apiKey | quote }}
   clientApiKeys: {{ .Values.config.clientApiKeys | quote }}
+{{- end }}

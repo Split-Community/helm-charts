@@ -11,9 +11,15 @@ spec:
       env:
         - name: SPLIT_SYNC_APIKEY
           valueFrom:
+            {{- if .Values.useSealed }}
+            secretKeyRef:
+              name: {{ .Values.sealed.secretName }}
+              key: {{ .Values.sealed.apiKeyKey }}
+            {{- else }}
             configMapKeyRef:
               name: sync-configmap
               key: apiKey
+            {{- end }}
         - name: SPLIT_SYNC_REDIS_HOST
           value: {{ .Values.synchronizer.redisHost }}
         - name: SPLIT_SYNC_REDIS_PORT
