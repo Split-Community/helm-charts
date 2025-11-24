@@ -30,15 +30,17 @@ The charts in this repo are:
 
 For more information on how to use Helm and customize the deployment, please refer to the Helm documentation.
 
-## Using Sealed Secrets for API Keys
+## Using Kubernetes Secrets for API Keys
 
-All charts in this repository now support storing API keys in [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) instead of ConfigMaps for enhanced security. This provides better protection for sensitive API keys in Kubernetes.
+All charts in this repository support storing API keys in Kubernetes Secrets instead of ConfigMaps for enhanced security. While you can create secrets directly, we recommend using [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) for GitOps workflows.
 
-### Why Use Sealed Secrets?
+### Why Use Secrets (via Sealed Secrets)?
 
 - **Enhanced Security**: API keys are encrypted and can only be decrypted by the controller running in your cluster
 - **GitOps Friendly**: Encrypted secrets can be safely stored in Git repositories
 - **Access Control**: Limits who can access the actual API key values
+
+**Note**: Once a SealedSecret is created and decrypted by the controller, it becomes a regular Kubernetes Secret. The charts reference these secrets using standard `secretKeyRef` syntax - there's no special handling needed.
 
 ### Prerequisites
 
@@ -62,9 +64,16 @@ tar -xvzf kubeseal-0.19.5-linux-amd64.tar.gz kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 ```
 
-### Creating Sealed Secrets
+### Creating Secrets
 
-#### For Split Proxy
+You can create Kubernetes Secrets in two ways:
+
+1. **Using Sealed Secrets (Recommended for GitOps)**: Create encrypted secrets that can be safely stored in Git
+2. **Direct Secret Creation**: Create secrets directly using `kubectl`
+
+#### Option 1: Using Sealed Secrets
+
+##### For Split Proxy
 
 ```shell
 # 1. Create a regular Kubernetes Secret with your API keys
@@ -76,10 +85,11 @@ kubectl create secret generic split-proxy-sealed \
 # 2. Use kubeseal to encrypt the secret
 kubeseal < proxy-secret.yaml > proxy-sealed-secret.yaml
 
-# 3. Apply the sealed secret to your cluster
+# 3. Apply the sealed secret to your cluster (it will be decrypted into a regular Secret)
 kubectl apply -f proxy-sealed-secret.yaml
 ```
-#### For Split Evaluator
+
+##### For Split Evaluator
 
 ```shell
 # Create and seal the secret
@@ -87,11 +97,11 @@ kubectl create secret generic split-evaluator-sealed \
   --from-literal=apiKey=your-evaluator-api-key \
   --dry-run=client -o yaml | kubeseal > evaluator-sealed-secret.yaml
 
-# Apply the sealed secret
+# Apply the sealed secret (it will be decrypted into a regular Secret)
 kubectl apply -f evaluator-sealed-secret.yaml
 ```
 
-#### For Split Synchronizer
+##### For Split Synchronizer
 
 ```shell
 # Create and seal the secret
@@ -99,11 +109,30 @@ kubectl create secret generic split-synchronizer-sealed \
   --from-literal=apiKey=your-synchronizer-api-key \
   --dry-run=client -o yaml | kubeseal > synchronizer-sealed-secret.yaml
 
-# Apply the sealed secret
+# Apply the sealed secret (it will be decrypted into a regular Secret)
 kubectl apply -f synchronizer-sealed-secret.yaml
 ```
 
-### Deploying Charts with Sealed Secrets
+#### Option 2: Direct Secret Creation
+
+Alternatively, you can create secrets directly:
+
+```shell
+# For Split Proxy
+kubectl create secret generic split-proxy-sealed \
+  --from-literal=apiKey=your-split-api-key \
+  --from-literal=clientApiKeys=your-client-api-keys
+
+# For Split Evaluator
+kubectl create secret generic split-evaluator-sealed \
+  --from-literal=apiKey=your-evaluator-api-key
+
+# For Split Synchronizer
+kubectl create secret generic split-synchronizer-sealed \
+  --from-literal=apiKey=your-synchronizer-api-key
+```
+
+### Deploying Charts with Secrets
 
 #### Split Proxy
 
@@ -129,9 +158,11 @@ helm install my-synchronizer split-helm-charts/Split-Synchronizer-Chart \
   --set sealed.secretName=split-synchronizer-sealed
 ```
 
+**Note**: The `useSealed` flag is a bit of a misnomer - it simply tells the chart to use a Kubernetes Secret instead of a ConfigMap. The secret can be created from a SealedSecret or directly - the chart doesn't care, as both result in a regular Kubernetes Secret.
+
 ### Customizing Secret Names and Keys
 
-You can customize the secret name and key names within the secret:
+You can customize the secret name and key names within the secret. The secret must exist in your cluster before deploying the chart:
 
 ```shell
 # For Split Proxy
@@ -180,10 +211,11 @@ helm install my-sync split-helm-charts/Split-Synchronizer-Chart \
 
 ### Important Notes
 
-- **Create the secret first**: Always create and apply the sealed secret before installing the chart
-- **Secret names must match**: The secret name in your chart configuration must match the actual sealed secret name
-- **Key names must match**: The key names in your chart configuration must match the keys in your sealed secret
-- **No automatic secret creation**: The chart does not create sealed secrets; you must create them separately
+- **Create the secret first**: Always create the Kubernetes Secret (either via SealedSecret or directly) before installing the chart
+- **Secret names must match**: The secret name in your chart configuration must match the actual Secret name in your cluster
+- **Key names must match**: The key names in your chart configuration must match the keys in your Secret
+- **No automatic secret creation**: The chart does not create secrets; you must create them separately
+- **Sealed Secrets become regular Secrets**: Once a SealedSecret is applied, the controller decrypts it into a regular Kubernetes Secret. The chart references this Secret using standard Kubernetes `secretKeyRef` syntax
 
 
 ## Modifications and extensions

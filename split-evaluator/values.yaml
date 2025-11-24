@@ -11,15 +11,16 @@ service:
 
 config:
   # API key storage configuration
-  useSealed: false  # Set to true to use sealed secrets instead of ConfigMap
+  useSealed: false  # Set to true to use Kubernetes Secrets instead of ConfigMap
   
   # ConfigMap storage (default)
   apiKey: ""
   
-  # Sealed Secret references (used when useSealed is true)
+  # Kubernetes Secret references (used when useSealed is true)
+  # Note: Secrets can be created from SealedSecrets or directly - both work the same way
   sealed:
-    secretName: "split-evaluator-sealed"  # Name of the sealed secret
-    apiKeyKey: "apiKey"                  # Key within the sealed secret containing the API key
+    secretName: "split-evaluator-sealed"  # Name of the Kubernetes Secret
+    apiKeyKey: "apiKey"                  # Key within the secret containing the API key
   
   # When true, generates a template SealedSecret manifest (for reference only)
   # Should be false in production as the actual secret must be created separately
