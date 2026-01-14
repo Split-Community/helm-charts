@@ -158,7 +158,7 @@ helm install my-synchronizer split-helm-charts/Split-Synchronizer-Chart \
   --set sealed.secretName=split-synchronizer-sealed
 ```
 
-**Note**: The `useSealed` flag is a bit of a misnomer - it simply tells the chart to use a Kubernetes Secret instead of a ConfigMap. The secret can be created from a SealedSecret or directly - the chart doesn't care, as both result in a regular Kubernetes Secret.
+**Note**: The `useSealed` flag simply tells the chart to use a Kubernetes Secret instead of a ConfigMap. The secret can be created from a SealedSecret or directly - the chart doesn't care, as both result in a regular Kubernetes Secret.
 
 ### Customizing Secret Names and Keys
 
